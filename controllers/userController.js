@@ -4,7 +4,7 @@ const User = require('../models/User')
 const Joi = require('joi')
 const Token = require('../models/token')
 const sendEmail = require('../utils/verify')
-const {nanoid} = require('nanoid')
+import { nanoid } from 'nanoid';
 
 // @desc Get all users
 // @route GET /users

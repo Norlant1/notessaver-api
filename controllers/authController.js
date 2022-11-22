@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const Token = require('../models/token')
 const sendEmail = require('../utils/verify')
-const {nanoid} = require('nanoid')
+import { nanoid } from 'nanoid'
 
 const login = asyncHandler(async(req,res) => {
   
