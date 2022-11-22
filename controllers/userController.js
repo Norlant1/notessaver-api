@@ -4,7 +4,7 @@ const User = require('../models/User')
 const Joi = require('joi')
 const Token = require('../models/token')
 const sendEmail = require('../utils/verify')
-const crypto = require('crypto')
+const {nanoid} = require('nanoid')
 
 // @desc Get all users
 // @route GET /users
@@ -84,12 +84,15 @@ const createNewUser = asyncHandler(async(req,res) => {
 
   const user = await User.create(userObject)
 
-   
+   if(!user){
+    return res.status(400).json({message:'bad request'})
+   }
   // create a token for verification
 
+  const nanoToken = nanoid(64)
   const token = await Token.create({
     userId: user._id,
-    token: crypto.randomBytes(32).toString("hex")
+    token: nanoToken
   })
 
   const url = `${process.env.BASE_URL}activate/verify/${user._id}/verifyaccount/${token.token}`

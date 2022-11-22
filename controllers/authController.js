@@ -3,9 +3,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const Token = require('../models/token')
-const crypto = require('crypto')
 const sendEmail = require('../utils/verify')
-
+const {nanoid} = require('nanoid')
 
 const login = asyncHandler(async(req,res) => {
   
@@ -38,10 +37,10 @@ const login = asyncHandler(async(req,res) => {
 
    if(!token){
 
- 
+    const nanoToken = nanoid(64)
       const token = await Token.create({
         userId: foundUser._id,
-        token: crypto.randomBytes(32).toString("hex")
+        token: nanoToken
       })
       
       console.log('test')
