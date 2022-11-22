@@ -4,7 +4,7 @@ const User = require('../models/User')
 const Token = require('../models/token')
 
 
-router.route('/')
+router.route('/verify/:id/verifyaccount/:token')
       .get(async (req,res)=> {
         try {
     

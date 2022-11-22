@@ -33,7 +33,7 @@ app.use('/',require('./routes/root'))
 app.use('/register', require('./routes/userRoutes'))
 app.use('/notes',require('./routes/noteRoutes'))
 app.use('/auth', require('./routes/authRoutes'))
-app.use('/verify/:id/verifyaccount/:token',require('./routes/verifyRoutes'))
+app.use('/activate',require('./routes/verifyRoutes'))
 
 
 
