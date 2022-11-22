@@ -47,7 +47,8 @@ const createNewUser = asyncHandler(async(req,res) => {
            .required(),
 
     password: Joi.string()
-    .pattern(new RegExp('^[a-zA-Z0-9]{7,30}$'))
+    .min(7)
+    .max(20)
     .required(),
   
     confirmPassword: Joi.ref('password')
