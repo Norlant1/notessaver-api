@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const Token = require('../models/token')
 const sendEmail = require('../utils/verify')
-import { nanoid } from 'nanoid'
+const randomstring = require("randomstring");
 
 const login = asyncHandler(async(req,res) => {
   
@@ -37,10 +37,10 @@ const login = asyncHandler(async(req,res) => {
 
    if(!token){
 
-    const nanoToken = nanoid(64)
+    const randomToken = randomstring.generate()
       const token = await Token.create({
         userId: foundUser._id,
-        token: nanoToken
+        token: randomToken
       })
       
       console.log('test')

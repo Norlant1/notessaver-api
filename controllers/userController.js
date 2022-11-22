@@ -4,7 +4,7 @@ const User = require('../models/User')
 const Joi = require('joi')
 const Token = require('../models/token')
 const sendEmail = require('../utils/verify')
-import { nanoid } from 'nanoid';
+const randomstring = require("randomstring");
 
 // @desc Get all users
 // @route GET /users
@@ -89,10 +89,10 @@ const createNewUser = asyncHandler(async(req,res) => {
    }
   // create a token for verification
 
-  const nanoToken = nanoid(64)
+  const randomToken = randomstring.generate()
   const token = await Token.create({
     userId: user._id,
-    token: nanoToken
+    token: randomToken
   })
 
   const url = `${process.env.BASE_URL}activate/verify/${user._id}/verifyaccount/${token.token}`
