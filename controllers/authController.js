@@ -47,7 +47,7 @@ const login = asyncHandler(async(req,res) => {
       console.log('test')
       console.log(`token ${token}`)
     
-      const url = `${process.env.BASE_URL}/activate/verify/${foundUser._id}/verifyaccount/${token.token}`
+      const url = `${process.env.BASE_URL}activate/verify/${foundUser._id}/verifyaccount/${token.token}`
       await sendEmail(foundUser.email,"Verify Email",url)
   
    }

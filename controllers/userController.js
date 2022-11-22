@@ -91,7 +91,7 @@ const createNewUser = asyncHandler(async(req,res) => {
     token: crypto.randomBytes(32).toString("hex")
   })
 
-  const url = `${process.env.BASE_URL}/activate/verify/${user._id}/verifyaccount/${token.token}`
+  const url = `${process.env.BASE_URL}activate/verify/${user._id}/verifyaccount/${token.token}`
   await sendEmail(user.email,"Verify Email",url)
   
 
