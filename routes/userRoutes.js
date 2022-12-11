@@ -14,4 +14,7 @@ router.route('/')
 
 
 
+router.route('/currentUser')
+    .get(userController.getUser)
+
 module.exports = router;

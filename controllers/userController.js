@@ -5,6 +5,8 @@ const Joi = require('joi')
 const Token = require('../models/token')
 const sendEmail = require('../utils/verify')
 const randomstring = require("randomstring");
+const SetOfNotes = require('../models/SetOfNotes');
+
 
 // @desc Get all users
 // @route GET /users
@@ -25,6 +27,31 @@ const getAllUsers = asyncHandler(async(req,res) => {
   res.json(users)
 
 })
+
+const getUser = asyncHandler(async(req,res) => {
+   const {user,id} = req.body;
+   
+
+   if(!user || !id){
+    return res.status(400).json({message:'user and id must have value '})
+   }
+
+   const foundUser = await User.findOne({
+      username:user,
+       _id:id 
+   }).exec()
+
+   if(!foundUser){
+    return res.status(404).json({message:'user is not found'})
+   }
+   res.json(foundUser)
+
+
+})
+
+
+
+
 
 
 const createNewUser = asyncHandler(async(req,res) => {
@@ -81,8 +108,14 @@ const createNewUser = asyncHandler(async(req,res) => {
   const hashedPassword = await bcrypt.hash(password,10)
 
   const userObject = {username,email,"password":hashedPassword}
-
+  
   const user = await User.create(userObject)
+  console.log(user)
+  const createdSOT = await SetOfNotes.create({user:user._id,title:'default '})
+
+  user.activeSetofNotes = createdSOT._id
+
+  await user.save()
 
    if(!user){
     return res.status(400).json({message:'bad request'})
@@ -90,11 +123,16 @@ const createNewUser = asyncHandler(async(req,res) => {
   // create a token for verification
 
   const randomToken = randomstring.generate()
+
   const token = await Token.create({
     userId: user._id,
     token: randomToken
   })
 
+
+  
+
+   
   const url = `${process.env.BASE_URL}activate/verify/${user._id}/verifyaccount/${token.token}`
   await sendEmail(user.email,"Verify Email",url)
   
@@ -111,8 +149,36 @@ const createNewUser = asyncHandler(async(req,res) => {
 })
 
 
-const updateUser = asyncHandler(async() => {
-   
+const updateUser = asyncHandler(async(req,res) => {
+ 
+  const {user,id} = req
+  const {SetOfNotesId,active} = req.body
+
+
+  console.log(user,id)
+  if(!user || !id){
+    return res.status(400).json({message:'username and id is required'})
+  }
+
+  
+  const foundUser = await User.findOne({username:user,_id:id}).exec()
+  
+  
+  if(!foundUser){
+    return res.status(404).json({message:'user not found'})
+  }
+
+  if(SetOfNotesId) foundUser.activeSetofNotes = SetOfNotesId
+
+  
+
+
+    await foundUser.save()
+  
+  
+
+  
+  res.json(foundUser)
 })
 
 
@@ -128,5 +194,5 @@ const deleteAllUsers = asyncHandler(async(req,res)=> {
 })
 
 
-module.exports = {getAllUsers,createNewUser,updateUser,deleteAllUsers}
+module.exports = {getAllUsers,getUser,createNewUser,updateUser,deleteAllUsers}
 

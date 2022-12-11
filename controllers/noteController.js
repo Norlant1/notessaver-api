@@ -71,16 +71,41 @@ const getAllNotes = asyncHandler(async(req,res) => {
 })
 
 
+const getNotesByActiveSON = asyncHandler(async(req,res)=>{
+
+  const {activeSetofNotes} = req.body
+
+  if(!activeSetofNotes){
+    return res.status(400).json({message:'activeSetofNotes is undefined'})
+  }
+  
+  const notesFound = await Note.find({parent:activeSetofNotes}).exec()
+
+  if(!notesFound){
+    return res.status(400).json({message:'no note is found'})
+  }
+
+  
+  res.json(notesFound)
+
+
+
+})
+
+
 const createNewNotes = asyncHandler(async(req,res) => {
   
+  const {activeSetofNotes} = req
   const {user,title,text} = req.body  
 
   
-  if(!user){
-    return res.status(400).json({message:'userID is required'})
+  if(!user || !activeSetofNotes){
+    return res.status(400).json({message:'Bad request'})
   }
 
-  const note = await Note.create({user,title,text})
+  console.log(activeSetofNotes)
+
+  const note = await Note.create({user,title,text,parent:activeSetofNotes})
 
   if(note){
    return res.status(201).json(note)
@@ -140,4 +165,4 @@ const deleteNote = asyncHandler(async(req,res) => {
 
 
 
-module.exports = {getNotesByUser ,getAllNotes,createNewNotes, updateNote, deleteNote}
+module.exports = {getNotesByUser,getNotesByActiveSON,getAllNotes,createNewNotes, updateNote, deleteNote}

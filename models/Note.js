@@ -16,6 +16,12 @@ const noteSchema = new mongoose.Schema({
   text:{
     type:String,
     default:''
+  },
+
+  parent: {
+    type:mongoose.Schema.Types.ObjectId,
+    required:true,
+    ref:"SetOfNotes"
   }
 },
 {

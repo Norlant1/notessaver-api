@@ -30,11 +30,11 @@ app.use(cors(corsOptions));
 
 // Routes
 app.use('/',require('./routes/root'))
-app.use('/register', require('./routes/userRoutes'))
+app.use('/user', require('./routes/userRoutes'))
 app.use('/notes',require('./routes/noteRoutes'))
 app.use('/auth', require('./routes/authRoutes'))
 app.use('/activate',require('./routes/verifyRoutes'))
-
+app.use('/setofnotes',require('./routes/SetOfNotesRoutes'))
 
 
 

@@ -15,6 +15,9 @@ router.route('/')
 router.route('/notes')
 .get(noteController.getNotesByUser)
 
+router.route('/active-notes')
+.post(noteController.getNotesByActiveSON)
+
 
 
 

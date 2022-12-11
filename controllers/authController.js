@@ -73,11 +73,12 @@ const login = asyncHandler(async(req,res) => {
     {
       "userInfo":{
         "username": foundUser.username,
-        "id": foundUser._id
+        "id": foundUser._id,
+        "activeSetofNotes": foundUser.activeSetofNotes
       }
     },
     process.env.ACCESS_TOKEN_SECRET,
-    {expiresIn:'900sec'}
+    {expiresIn:'5sec'}
   )
     
  const refreshToken = jwt.sign(
@@ -126,11 +127,12 @@ const refresh = (req,res) => {
       {
         "userInfo":{
           "username":userFound.username,
-          "id": userFound._id
+          "id": userFound._id,
+          "activeSetofNotes": userFound.activeSetofNotes
         }
       },
       process.env.ACCESS_TOKEN_SECRET,
-      {expiresIn:'900sec'}
+      {expiresIn:'5sec'}
      )
 
 
@@ -145,8 +147,9 @@ const refresh = (req,res) => {
 const logout = (req,res) => {
   const cookies = req.cookies
 
-  if(!cookies?.jwt) return res.status(204)
+  if(!cookies?.jwt) return res.status(204).json({message:'no token to clear'})
 
+  console.log(!cookies?.jwt)
   res.clearCookie('jwt',{httpOnly:true, secure:true, sameSite:'None'})
   res.json({message:'cookies cleared'})
 }

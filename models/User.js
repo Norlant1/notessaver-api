@@ -1,4 +1,4 @@
-const mongoose =require('mongoose');
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   
@@ -22,8 +22,11 @@ const userSchema = new mongoose.Schema({
   verified: {
     type:Boolean,
     default:false
+  },
+  activeSetofNotes:{
+    type: mongoose.Schema.Types.ObjectId,
+    required: false
   }
-  
 })
 
 
