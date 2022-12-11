@@ -78,7 +78,7 @@ const login = asyncHandler(async(req,res) => {
       }
     },
     process.env.ACCESS_TOKEN_SECRET,
-    {expiresIn:'5sec'}
+    {expiresIn:'300sec'}
   )
     
  const refreshToken = jwt.sign(
@@ -132,7 +132,7 @@ const refresh = (req,res) => {
         }
       },
       process.env.ACCESS_TOKEN_SECRET,
-      {expiresIn:'5sec'}
+      {expiresIn:'300sec'}
      )
 
 
