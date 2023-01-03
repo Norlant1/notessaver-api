@@ -25,7 +25,6 @@ router.route('/verify/:id/verifyaccount/:token')
            res.status(200).send({message:'Email verified Successfully'})
         }catch(error){
           res.status(505).send({message:'internal server error'})
-          console.log(error)
         }
     
     })

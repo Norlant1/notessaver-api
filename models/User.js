@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema({
   activeSetofNotes:{
     type: mongoose.Schema.Types.ObjectId,
     required: false
+  },
+  roles:{
+    type:Array,
+    required:true,
+    default:['user']
   }
 })
 

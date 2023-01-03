@@ -6,7 +6,7 @@ const verifyJWT = require('../middleware/verifyJWT')
 router.route('/')
          .get(verifyJWT,SetOfNotesController.getSetOfNotes)
          .post(verifyJWT,SetOfNotesController.createSetOfNotes)
-
+         .delete(verifyJWT,SetOfNotesController.deleteSetOfNotes)
 
 
 module.exports = router

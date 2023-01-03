@@ -35,8 +35,8 @@ app.use('/notes',require('./routes/noteRoutes'))
 app.use('/auth', require('./routes/authRoutes'))
 app.use('/activate',require('./routes/verifyRoutes'))
 app.use('/setofnotes',require('./routes/SetOfNotesRoutes'))
-
-
+app.use('/upload',require('./routes/uploadRoutes'))
+app.use('/recovery',require('./routes/recoveryTokenRoutes'))
 
 
 

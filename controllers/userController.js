@@ -13,7 +13,27 @@ const SetOfNotes = require('../models/SetOfNotes');
 // @access Private
 
 
+const getUserByEmail =  asyncHandler(async(req,res) => {
+  
+  const {email} = req.body
 
+   
+  if(!email){
+     return res.status(400).json({message:'email is empty'})
+  }
+
+
+
+  const foundUser = await User.findOne({email}).collation({locale:'en',strength:2}).select('-password').exec()
+
+  if(!foundUser) {
+     return res.status(404).json({message:'email does not exist'})
+  }
+
+
+  res.json(foundUser)
+
+})
 
 
 const getAllUsers = asyncHandler(async(req,res) => {
@@ -27,28 +47,6 @@ const getAllUsers = asyncHandler(async(req,res) => {
   res.json(users)
 
 })
-
-const getUser = asyncHandler(async(req,res) => {
-   const {user,id} = req.body;
-   
-
-   if(!user || !id){
-    return res.status(400).json({message:'user and id must have value '})
-   }
-
-   const foundUser = await User.findOne({
-      username:user,
-       _id:id 
-   }).exec()
-
-   if(!foundUser){
-    return res.status(404).json({message:'user is not found'})
-   }
-   res.json(foundUser)
-
-
-})
-
 
 
 
@@ -85,8 +83,7 @@ const createNewUser = asyncHandler(async(req,res) => {
    
    const {error} = schema.validate({username,email,password,confirmPassword})
 
-  console.log(username)
-  console.log(email)
+
 
 
    if(error){
@@ -110,7 +107,7 @@ const createNewUser = asyncHandler(async(req,res) => {
   const userObject = {username,email,"password":hashedPassword}
   
   const user = await User.create(userObject)
-  console.log(user)
+
   const createdSOT = await SetOfNotes.create({user:user._id,title:'default '})
 
   user.activeSetofNotes = createdSOT._id
@@ -155,7 +152,7 @@ const updateUser = asyncHandler(async(req,res) => {
   const {SetOfNotesId,active} = req.body
 
 
-  console.log(user,id)
+
   if(!user || !id){
     return res.status(400).json({message:'username and id is required'})
   }
@@ -194,5 +191,5 @@ const deleteAllUsers = asyncHandler(async(req,res)=> {
 })
 
 
-module.exports = {getAllUsers,getUser,createNewUser,updateUser,deleteAllUsers}
+module.exports = {getUserByEmail,getAllUsers,createNewUser,updateUser,deleteAllUsers}
 

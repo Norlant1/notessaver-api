@@ -51,4 +51,33 @@ const createSetOfNotes = asyncHandler(async(req,res)=> {
 
 
 
-module.exports = {getSetOfNotes,createSetOfNotes}
+const deleteSetOfNotes = asyncHandler(async(req,res) => {
+   
+  const {id} = req.body
+
+  
+  if(!id){
+    return res.status(400).json({message:'note Id is required'})
+  }
+
+  const foundSetOfNotes = await SetOfNotes.findById({_id:id}).exec()
+
+  if(!foundSetOfNotes){
+    return res.status(404).json({message:'Set of Notes is not found'})
+  }
+
+  const deletedItem = await foundSetOfNotes.deleteOne()
+
+
+  return res.json(deletedItem._id)
+
+
+
+})
+
+
+
+
+
+
+module.exports = {getSetOfNotes,createSetOfNotes,deleteSetOfNotes}

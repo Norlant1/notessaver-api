@@ -26,7 +26,6 @@ const accountVerify = async(email,subject,text) => {
   }catch(error){
 
     console.log('error email not sent')
-    console.log(error)
   }
 }
 

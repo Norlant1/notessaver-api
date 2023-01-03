@@ -26,7 +26,7 @@ const login = asyncHandler(async(req,res) => {
    return res.status(401).json({message:'username is not found'})
  }
 
-  console.log(foundUser)
+ 
  // check if the user is verified
 
  if(!foundUser.verified){
@@ -43,8 +43,7 @@ const login = asyncHandler(async(req,res) => {
         token: randomToken
       })
       
-      console.log('test')
-      console.log(`token ${token}`)
+     
     
       const url = `${process.env.BASE_URL}activate/verify/${foundUser._id}/verifyaccount/${token.token}`
       await sendEmail(foundUser.email,"Verify Email",url)
@@ -74,11 +73,12 @@ const login = asyncHandler(async(req,res) => {
       "userInfo":{
         "username": foundUser.username,
         "id": foundUser._id,
-        "activeSetofNotes": foundUser.activeSetofNotes
+        "activeSetofNotes": foundUser.activeSetofNotes,
+        "roles":foundUser.roles
       }
     },
     process.env.ACCESS_TOKEN_SECRET,
-    {expiresIn:'300sec'}
+    {expiresIn:'5sec'}
   )
     
  const refreshToken = jwt.sign(
@@ -128,11 +128,12 @@ const refresh = (req,res) => {
         "userInfo":{
           "username":userFound.username,
           "id": userFound._id,
-          "activeSetofNotes": userFound.activeSetofNotes
+          "activeSetofNotes": userFound.activeSetofNotes,
+          "roles":userFound.roles
         }
       },
       process.env.ACCESS_TOKEN_SECRET,
-      {expiresIn:'300sec'}
+      {expiresIn:'5sec'}
      )
 
 
@@ -149,7 +150,7 @@ const logout = (req,res) => {
 
   if(!cookies?.jwt) return res.status(204).json({message:'no token to clear'})
 
-  console.log(!cookies?.jwt)
+
   res.clearCookie('jwt',{httpOnly:true, secure:true, sameSite:'None'})
   res.json({message:'cookies cleared'})
 }
