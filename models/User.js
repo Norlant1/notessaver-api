@@ -31,8 +31,13 @@ const userSchema = new mongoose.Schema({
     type:Array,
     required:true,
     default:['user']
+  },
+  connectedUsers:{
+    type:Array,
+    required:false,
+    default:[]
   }
-})
+}) 
 
 
 module.exports = mongoose.model('User',userSchema)

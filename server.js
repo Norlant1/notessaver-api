@@ -37,7 +37,7 @@ app.use('/activate',require('./routes/verifyRoutes'))
 app.use('/setofnotes',require('./routes/SetOfNotesRoutes'))
 app.use('/upload',require('./routes/uploadRoutes'))
 app.use('/recovery',require('./routes/recoveryTokenRoutes'))
-
+app.use('/messages',require('./routes/messagesRoutes'))
 
 
 // page not found

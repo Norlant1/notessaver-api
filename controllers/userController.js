@@ -6,7 +6,7 @@ const Token = require('../models/token')
 const sendEmail = require('../utils/verify')
 const randomstring = require("randomstring");
 const SetOfNotes = require('../models/SetOfNotes');
-
+const Message = require('../models/Message');
 
 // @desc Get all users
 // @route GET /users
@@ -16,24 +16,21 @@ const SetOfNotes = require('../models/SetOfNotes');
 const getUserByEmail =  asyncHandler(async(req,res) => {
   
   const {email} = req.body
-
-   
+ 
   if(!email){
      return res.status(400).json({message:'email is empty'})
   }
-
-
-
   const foundUser = await User.findOne({email}).collation({locale:'en',strength:2}).select('-password').exec()
 
   if(!foundUser) {
      return res.status(404).json({message:'email does not exist'})
   }
 
-
   res.json(foundUser)
 
 })
+
+
 
 
 const getAllUsers = asyncHandler(async(req,res) => {
@@ -47,7 +44,6 @@ const getAllUsers = asyncHandler(async(req,res) => {
   res.json(users)
 
 })
-
 
 
 
